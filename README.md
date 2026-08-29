@@ -16,7 +16,7 @@ AXIANWARE is a lightweight, multi-threaded PE (Portable Executable) analysis uti
 > - **Build from Source:** If you do not trust pre-compiled binaries, you are strongly encouraged to clone the repository and compile the source code yourself using MSVC.
 
 ---
-
+🔗[DOWNLOAD AXIANWARE v2026.08.29](https://github.com/eloyssync/axianware/releases/tag/v2026.08.29)
 ## Key Features
 <img width="1123" height="730" alt="image" src="https://github.com/user-attachments/assets/8d90b761-8332-4b86-a619-a806da7ff6bf" />
 
@@ -44,7 +44,6 @@ AXIANWARE is a lightweight, multi-threaded PE (Portable Executable) analysis uti
 | **Supported Formats** | Executables (`.exe`), Dynamic Link Libraries (`.dll`), System Drivers (`.sys`) |
 
 ---
-
 ## Installation  Requirements
 
 ### Prerequisites
