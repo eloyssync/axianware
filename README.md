@@ -2,18 +2,18 @@
 
 AXIANWARE is a lightweight, multi-threaded PE (Portable Executable) analysis utility and reverse engineering helper written in native C++ and Win32 API. Designed for deep binary structure inspection, import table auditing, security mitigation analysis, and generating shell/patch templates without bloat or background telemetry.
 
-## ⚠️ Antivirus / False Positive Warning
-
-When compiling or downloading the pre-built `axianware.exe` binary, certain security software or heuristic cloud engines (such as Microsoft Defender or CrowdStrike) may flag it as a generic threat or Trojan (e.g., *Wacatac.B!ml*). 
-
-**This is a 100% false positive.** 
-
-### Why does this happen?
-AXIANWARE is a low-level reverse engineering tool that interacts directly with Windows internals, parses PE headers, manipulates virtual memory protections (`VirtualProtectEx`), writes process memory (`WriteProcessMemory`), and generates memory injection/patch templates. Because these Windows API functions are frequently utilized by malware loaders, security heuristics automatically trigger an alert on unknown, unpackaged binaries that use them.
-
-- **Source Code Transparency:** The project is fully open-source. You can review every line of code in `AXIANWARE.cpp`.
-- **VirusTotal Report:** You can inspect the analysis results for the compiled binary on [VirusTotal](https://www.virustotal.com/gui/file/d5cd1746175695d54f556ceb0955c5fb4ab108e1e683737ec83610ba7e8f3515).
-- **Build from Source:** If you do not trust pre-compiled binaries, you are strongly encouraged to clone the repository and compile the source code yourself using MSVC.
+> ## Antivirus / False Positive Warning
+> 
+> When compiling or downloading the pre-built `axianware.exe` binary, certain security software or heuristic cloud engines (such as Microsoft Defender or CrowdStrike) may flag it as a generic threat or Trojan (e.g., *Wacatac.B!ml*).
+> 
+> **This is a 100% false positive.**
+> 
+> ### Why does this happen?
+> AXIANWARE is a low-level reverse engineering tool that interacts directly with Windows internals, parses PE headers, manipulates virtual memory protections (`VirtualProtectEx`), writes process memory (`WriteProcessMemory`), and generates memory injection/patch templates. Because these Windows API functions are frequently utilized by malware loaders, security heuristics automatically trigger an alert on unknown, unpackaged binaries that use them.
+> 
+> - **Source Code Transparency:** The project is fully open-source. You can review every line of code in `AXIANWARE.cpp`.
+> - **VirusTotal Report:** You can inspect the analysis results for the compiled binary on [VirusTotal](https://www.virustotal.com/gui/file/d5cd1746175695d54f556ceb0955c5fb4ab108e1e683737ec83610ba7e8f3515).
+> - **Build from Source:** If you do not trust pre-compiled binaries, you are strongly encouraged to clone the repository and compile the source code yourself using MSVC.
 
 ---
 
