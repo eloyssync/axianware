@@ -1,40 +1,27 @@
 # AXIANWARE
 
-AXIANWARE is a lightweight, multi-threaded PE (Portable Executable) analysis utility and reverse engineering helper written in native C++ and Win32 API. Designed for deep binary structure inspection, import table auditing, security mitigation analysis, and generating shell/patch templates without bloat or background telemetry.
-
-> ## Antivirus / False Positive Warning
-> 
-> When compiling or downloading the pre-built `axianware.exe` binary, certain security software or heuristic cloud engines (such as Microsoft Defender or CrowdStrike) may flag it as a generic threat or Trojan (e.g., *Wacatac.B!ml*).
-> 
-> **This is a 100% false positive.**
-> 
-> ### Why does this happen?
-> AXIANWARE is a low-level reverse engineering tool that interacts directly with Windows internals, parses PE headers, manipulates virtual memory protections (`VirtualProtectEx`), writes process memory (`WriteProcessMemory`), and generates memory injection/patch templates. Because these Windows API functions are frequently utilized by malware loaders, security heuristics automatically trigger an alert on unknown, unpackaged binaries that use them.
-> 
-> - **Source Code Transparency:** The project is fully open-source. You can review every line of code in `AXIANWARE.cpp`.
-> - **VirusTotal Report:** You can inspect the analysis results for the compiled binary on [VirusTotal](https://www.virustotal.com/gui/file/fe8134787924f0d532e4a70e04bf7f4387393057811c2f6671a1c40468533805?nocache=1).
-> - **Build from Source:** If you do not trust pre-compiled binaries, you are strongly encouraged to clone the repository and compile the source code yourself using MSVC.
+A lightweight, multi-threaded PE (Portable Executable) analysis utility and binary modification toolkit written in native C++ and Win32 API. Built for deep static inspection, security triage, and rapid patch staging.
 
 ---
-🔗[DOWNLOAD AXIANWARE v2026.09.16](https://github.com/eloyssync/axianware/releases/tag/v2026.09.16)
-## Key Features
-<img width="1123" height="730" alt="image" src="https://github.com/user-attachments/assets/8d90b761-8332-4b86-a619-a806da7ff6bf" />
+<img width="1123" height="729" alt="image" src="https://github.com/user-attachments/assets/ef39d2b7-dcc0-44fd-8ec9-95f56125ca4b" />
 
-- **PE Header / Security Audit:** Parses DOS/NT headers, identifies target architecture (x86 / x64), validates PE CheckSums, and audits critical security mitigations (ASLR, DEP/NX, Control Flow Guard, SafeSEH).
-- **Section Entropy Analysis:** Calculates Shannon entropy across binary sections to instantly spot packed, obfuscated, or encrypted regions (>7.2 threshold indicators).
-- **Import Table (IAT) Inspection:** Scans imported DLLs and automatically flags high-risk or sensitive system APIs (memory allocation, process injection, anti-debugging).
-- **Async Pattern Scanning (AOB):** Non-blocking background worker threads for fast byte-pattern and wildcard scanning.
-- **Crypto / Anti-Analysis Signatures:** Built-in pattern detection for common cryptographic constants (AES, MD5, SHA-256, Base64) and anti-debug/anti-VM traits.
-- **Disassembly / Patch Staging:** Interactive code preview, conditional jump (`Jcc`) inversion, and staging binary modifications with automatic PE CheckSum recalculation upon saving.
-- **Code / Script Generation:** Instantly exports ready-to-use templates for:
-  - C++ In-Memory Suspended Process Loaders
-  - MinHook Inline Hook DLLs
-  - x64dbg Patch Files (`.1337`)
-  - Cheat Engine Auto Assembler Scripts
+### Core Features
+
+* **PE Header & Security Audit:** Parses DOS/NT headers, detects target architecture (x86 / x64), validates PE CheckSums, and audits mitigation flags (ASLR, DEP/NX, CFG, SafeSEH).
+* **Section Entropy Analysis:** Calculates Shannon entropy per section to instantly spot packed, obfuscated, or encrypted data (>7.2 threshold indicators).
+* **Import Table (IAT) Inspection:** Scans imported DLLs/APIs and flags sensitive routines (virtual memory management, thread context manipulation, process enumeration).
+* **Async Pattern Scanning (AOB):** Non-blocking background worker threads for fast byte-pattern matching with wildcard (`??`) support.
+* **Crypto & Anti-Analysis Detection:** Scans for known cryptographic constants (AES, MD5, SHA-256, Base64 tables) and anti-debugging/VM indicators.
+* **Disassembly & Patch Staging:** Interactive code preview, quick control-flow edits (NOP out, force `RET 0xC3`, invert `Jcc`), and automatic PE CheckSum recalculation upon saving.
+* **Export & Generation Pipeline:**
+  * C++ In-Memory Suspended Process Loader templates
+  * MinHook inline trampoline DLL templates
+  * x64dbg patch files (`.1337`)
+  * Cheat Engine Auto Assembler scripts
 
 ---
 
-## Target Architecture / System Scope
+### Target Architecture & Scope
 
 | Component Category | Target Description / Scope |
 | :--- | :--- |
@@ -44,39 +31,37 @@ AXIANWARE is a lightweight, multi-threaded PE (Portable Executable) analysis uti
 | **Supported Formats** | Executables (`.exe`), Dynamic Link Libraries (`.dll`), System Drivers (`.sys`) |
 
 ---
-## Installation  Requirements
 
-### Prerequisites
-- **Operating System:** Windows 10 / Windows 11 (x64)
-- **Compiler / Toolchain:** MSVC (Visual Studio) with C++17 support
-- **System Libraries:** Win32 API, Common Controls (`comctl32`), RichEdit (`msftedit`)
+### Building & Prerequisites
 
-### Clone / Build
-```bash
+**Prerequisites:**
+* **OS:** Windows 10 / Windows 11 (x64)
+* **Compiler / IDE:** Visual Studio 2022 (MSVC) with C++17 support
+* **Dependencies:** None (Pure Win32 API, `comctl32`, `msftedit`)
+
+**Build Steps:**
+```cmd
 git clone https://github.com/eloyssync/axianware.git
-cd AXIANWARE
-Open the project solution in Visual Studio and compile as a native Win32 Desktop Application (Release / x64).
+cd axianware
+Open AXIANWARE.sln in Visual Studio.
+
+Select Release and x64.
+
+Press Ctrl + Shift + B to compile. The binary will be generated in x64\Release\.
 
 Operational Workflow
-Initialization: Launch the utility and open a target PE binary via File -> Open Binary (Ctrl+O).
+Initialization: Launch the utility and load the target file via File -> Open Binary (Ctrl+O).
 
-Analysis: Review the automated breakdown of sections, security mitigations, IAT risks, and crypto signatures in the main interface grid.
+Automated Triage: Review the section layout, Shannon entropy distribution, and flagged APIs in the main report.
 
-Exploration / Disassembly: Use the analysis menu to inspect the entry point, extract strings asynchronously, or scan for AOB patterns.
+Deep Inspection: Use the Analysis menu to inspect exports/imports, launch async string extraction, or run AOB searches.
 
-Patch Staging: Apply modifications (such as NOP sleds, forced returns, or inverted jumps) directly to the memory buffer.
+Patch Staging: Toggle mitigation flags (e.g., clear ASLR) or stage instruction patches (NOP, RET, Jcc inversion) in the staging buffer.
 
-Commit Changes: Use File -> Save Patched Binary As (Ctrl+S) to write the modified binary to disk with a fully recalculated PE CheckSum.
+Commit Changes: Save the modified binary via File -> Save Patched Binary As... (Ctrl+S) with automatic PE CheckSum recalculation.
 
-Security / Reliability Disclaimer
-Disclaimer: This software is provided strictly for educational, auditing, and research purposes only. The author (eloyssync) assumes no liability and is not responsible for any misuse, illegal activities, system damage, data loss, or copyright infringements caused by this program. Use entirely at your own risk.
-
-Repository / Links
-GitHub Profile: github.com/eloyssync
-
-Repository: github.com/eloyssync/axianware
+Disclaimer
+Notice: This software is provided strictly for educational, security auditing, and research purposes. The author (eloyssync) assumes no liability and is not responsible for any misuse, unintended modifications, system damage, or copyright infringements caused by this tool. Use entirely at your own risk.
 
 License
-This project is licensed under the MIT License. See the LICENSE file for complete details.
-
-Developed by eloyssync.
+Distributed under the MIT License. See LICENSE for more information.
